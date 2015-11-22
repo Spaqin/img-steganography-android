@@ -19,10 +19,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class Encode extends AppCompatActivity {
+
+    private String filename;
+    private String password;
+    private EditText mPassField;
+    private EditText mFileField;
+    private RadioButton mNoneRadio;
+    private RadioButton mDESRadio;
+    private RadioButton mAESRadio;
+    private RadioButton mBlowFishRadio;
+    private EncodeControl encodeControl;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -44,6 +56,7 @@ public class Encode extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encode);
+        encodeControl = new EncodeControl();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,7 +71,12 @@ public class Encode extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-
+        mFileField = (EditText) findViewById(R.id.filenameField);
+        mPassField = (EditText) findViewById(R.id.passwdField);
+        mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
+        mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
+        mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
+        mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
 
 
     }
@@ -71,6 +89,23 @@ public class Encode extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
+
+    public void onClickNoEncryption(View v)
+    {
+        encodeControl.setEncType(Encryption_type.NONE);
+    }
+    public void onClickAES(View v)
+    {
+        encodeControl.setEncType(Encryption_type.AES);
+    }
+    public void onClickDES(View v)
+    {
+        encodeControl.setEncType(Encryption_type.DES);
+    }
+    public void onClickBlowFish(View v)
+    {
+        encodeControl.setEncType(Encryption_type.BLOWFISH);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

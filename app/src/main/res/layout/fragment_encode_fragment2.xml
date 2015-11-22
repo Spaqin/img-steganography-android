@@ -9,64 +9,59 @@
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CLEAR"
-            android:id="@+id/button3"
-            android:layout_marginBottom="58dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/radioGroup"
-            android:layout_alignParentStart="true" />
-
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioGroup"
-            android:layout_above="@+id/button3"
+            android:id="@+id/EncryptionGroup"
+            android:layout_marginTop="44dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_encryption"
+                android:id="@+id/noneRadio"
+                android:onClick="onClickNoEncryption"
+                android:checked="true" />
+
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DES"
-                android:id="@+id/radioButton3"
-                android:checked="true"
-                android:layout_above="@+id/button3"
-                android:layout_alignParentStart="true" />
+                android:id="@+id/DESRadio"
+                android:checked="false"
+                android:onClick="onClickDES"
+                android:nestedScrollingEnabled="false" />
+
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AES"
-                android:id="@+id/radioButton2"
+                android:id="@+id/AESRadio"
                 android:checked="false"
-                android:layout_above="@+id/radioButton3"
-                android:layout_alignParentStart="true" />
+                android:onClick="onClickAES" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BlowFish"
-                android:id="@+id/radioButton"
+                android:id="@+id/BlowFishRadio"
                 android:checked="false"
-                android:layout_above="@+id/radioButton2"
-                android:layout_alignParentStart="true" />
+                android:onClick="onClickBlowFish" />
 
         </RadioGroup>
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/editText"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_above="@+id/radioGroup"
-            android:layout_alignParentEnd="true" />
-
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/choose_encryption"
+        android:id="@+id/textView3"
+        android:layout_gravity="left|top" />
 </FrameLayout>

@@ -8,48 +8,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="파일이름"
-            android:id="@+id/textView2"
-            android:layout_marginTop="22dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="암호"
-            android:id="@+id/textView3"
-            android:layout_below="@+id/editText3"
-            android:layout_alignParentStart="true" />
-
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText3"
-            android:layout_alignTop="@+id/textView2"
+            android:hint="@string/filename"
+            android:id="@+id/filenameField"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/textView2" />
+            android:layout_alignParentStart="true" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/editText2"
-            android:layout_below="@+id/editText3"
-            android:layout_alignStart="@+id/editText3"
-            android:layout_alignEnd="@+id/editText3" />
+            android:hint="@string/password"
+            android:id="@+id/passwdField"
+            android:layout_below="@+id/filenameField"
+            android:layout_alignStart="@+id/filenameField"
+            android:layout_alignEnd="@+id/filenameField" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ENCODE"
-            android:id="@+id/button4"
+            android:text="@string/encode_button"
+            android:onClick="onClickEncode"
+            android:id="@+id/encodeButton"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="54dp"
