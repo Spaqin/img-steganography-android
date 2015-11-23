@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Encode"
+        android:text="@string/main_button_encode"
         android:id="@+id/goEncode"
         android:onClick="GoEncode"
         android:layout_above="@+id/goDecode"
@@ -22,7 +22,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DECODE"
+        android:text="@string/main_button_decode"
         android:id="@+id/goDecode"
         android:layout_above="@+id/GoMMS"
         android:layout_alignEnd="@+id/goEncode"
@@ -51,7 +51,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SHARING"
+        android:text="@string/main_button_share"
         android:id="@+id/GoMMS"
         android:layout_above="@+id/Exitbtn"
         android:layout_alignParentEnd="true"

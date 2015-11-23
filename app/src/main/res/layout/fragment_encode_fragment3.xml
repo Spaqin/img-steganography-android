@@ -38,5 +38,25 @@
             android:layout_marginBottom="54dp"
             android:layout_alignParentEnd="true" />
 
+        <Space
+            android:layout_width="20px"
+            android:layout_height="40dp"
+            android:layout_below="@+id/passwdField"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/space" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/encodeButton"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/space"
+            android:hint="@string/hint_message" />
+
     </RelativeLayout>
 </FrameLayout>

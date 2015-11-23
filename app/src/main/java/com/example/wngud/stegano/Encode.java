@@ -1,5 +1,6 @@
 package com.example.wngud.stegano;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Encode extends AppCompatActivity {
 
@@ -35,6 +41,9 @@ public class Encode extends AppCompatActivity {
     private RadioButton mAESRadio;
     private RadioButton mBlowFishRadio;
     private EncodeControl encodeControl;
+    private ImageView imageView1;
+    private File tempFile;
+    private Uri cameraUri;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -77,12 +86,24 @@ public class Encode extends AppCompatActivity {
         mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
         mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
         mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
+        imageView1 = (ImageView)findViewById(R.id.encodeImage);
 
 
     }
     public void onclick_camera(View v){
         Intent intent = new Intent();
         intent.setAction("android.media.action.IMAGE_CAPTURE");
+        try {
+            tempFile = File.createTempFile("temp", ".jpg", getExternalCacheDir());
+            cameraUri = Uri.fromFile(tempFile);
+        }
+        catch (IOException e)
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), R.string.error_camera, Toast.LENGTH_SHORT);
+            toast.show();
+            e.printStackTrace();
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
         startActivityForResult(intent, PICK_FROM_CAMERA);
     }
     public void onclick_gallery(View v){
@@ -94,36 +115,52 @@ public class Encode extends AppCompatActivity {
     public void onClickNoEncryption(View v)
     {
         encodeControl.setEncType(Encryption_type.NONE);
+        mPassField.setVisibility(EditText.INVISIBLE);
     }
     public void onClickAES(View v)
     {
         encodeControl.setEncType(Encryption_type.AES);
+        mPassField.setVisibility(EditText.VISIBLE);
     }
     public void onClickDES(View v)
     {
         encodeControl.setEncType(Encryption_type.DES);
+        mPassField.setVisibility(EditText.VISIBLE);
     }
     public void onClickBlowFish(View v)
     {
         encodeControl.setEncType(Encryption_type.BLOWFISH);
+        mPassField.setVisibility(EditText.VISIBLE);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if(resultCode == RESULT_OK)
         {
+
             if (requestCode == PICK_FROM_CAMERA) // 1 은 위에서 startActivityForResult(intent, 1);
             {
+                ContentResolver cr = getContentResolver();
+                try {
+                    Bitmap bm = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
+                    encodeControl.setPicture(bm);
+                    imageView1.setImageBitmap(bm);
+                }
 
-                ImageView imageView1 = (ImageView)findViewById(R.id.encodeImage);
-                Bitmap bm = (Bitmap) data.getExtras().get("data");
-                imageView1.setImageBitmap(bm);
+
+                catch (Exception e)
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.error_camera, Toast.LENGTH_SHORT);
+                    toast.show();
+                    e.printStackTrace();
+                }
+
             }
             else if(requestCode == PICK_FROM_ALBUM)
             {
                 try{
-                    ImageView imageView1 = (ImageView)findViewById(R.id.encodeImage);
-                    Uri selectedimg=data.getData();
+                    Uri selectedimg = data.getData();
+                    encodeControl.setPicture(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg));
                     imageView1.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedimg));
                 }catch(Exception e){
                     e.printStackTrace();

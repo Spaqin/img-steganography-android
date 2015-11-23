@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Steganographics</string>
+    <string name="gallery">Galeria</string>
+    <string name="filename">Nazwa pliku</string>
+    <string name="encode_button">ZAKODUJ</string>
+    <string name="choose_encryption">Wybierz szyfrowanie</string>
+    <string name="camera">Aparat</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="no_encryption">Brak</string>
+    <string name="password">Hasło</string>
+    <string name="hint_message" >Wiadomość</string>
+    <string name="title_activity_decode">Zdekoduj</string>
+    <string name="title_activity_encode">Zakoduj</string>
+    <string name="main_button_decode">Zdekoduj</string>
+    <string name="main_button_encode">Zakoduj</string>
+    <string name="main_button_share">Wyślij</string>
+    <string name="error_camera">Wystąpił błąd podczas robienia zdjęcia.</string>
+</resources>

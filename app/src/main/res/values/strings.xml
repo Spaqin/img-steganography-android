@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Steganography</string>
+    <string name="app_name">Steganographics</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -19,4 +19,9 @@
     <string name="filename">Filename</string>
     <string name="password">Password</string>
     <string name="encode_button">ENCODE</string>
+    <string name="hint_message" >Message</string>
+    <string name="main_button_encode">Encode</string>
+    <string name="main_button_share">share</string>
+    <string name="main_button_decode">decode</string>
+    <string name="error_camera">There was an error with taking a pic with the camera.</string>
 </resources>
