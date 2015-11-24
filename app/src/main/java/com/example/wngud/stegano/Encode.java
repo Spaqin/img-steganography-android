@@ -81,12 +81,12 @@ public class Encode extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         mFileField = (EditText) findViewById(R.id.filenameField);
-        mPassField = (EditText) findViewById(R.id.passwdField);
+
         mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
         mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
         mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
         mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
-        imageView1 = (ImageView) findViewById(R.id.imageView);
+        imageView1 = (ImageView) findViewById(R.id.encodeImage);
 
         //imageView1.setImageBitmap(resizedBmp);
 
@@ -115,21 +115,25 @@ public class Encode extends AppCompatActivity {
 
     public void onClickNoEncryption(View v)
     {
+        mPassField = (EditText) findViewById(R.id.passwdField);
         encodeControl.setEncType(Encryption_type.NONE);
         mPassField.setVisibility(EditText.INVISIBLE);
     }
     public void onClickAES(View v)
     {
+        mPassField = (EditText) findViewById(R.id.passwdField);
         encodeControl.setEncType(Encryption_type.AES);
         mPassField.setVisibility(EditText.VISIBLE);
     }
     public void onClickDES(View v)
     {
+        mPassField = (EditText) findViewById(R.id.passwdField);
         encodeControl.setEncType(Encryption_type.DES);
         mPassField.setVisibility(EditText.VISIBLE);
     }
     public void onClickBlowFish(View v)
     {
+        mPassField = (EditText) findViewById(R.id.passwdField);
         encodeControl.setEncType(Encryption_type.BLOWFISH);
         mPassField.setVisibility(EditText.VISIBLE);
     }
@@ -143,7 +147,7 @@ public class Encode extends AppCompatActivity {
             {
                 ContentResolver cr = getContentResolver();
                 try {
-                    imageView1 = (ImageView) findViewById(R.id.imageView);
+                    imageView1 = (ImageView) findViewById(R.id.encodeImage);
                     if(imageView1 == null)
                         Log.d("null error", "camera");
                     else
@@ -167,11 +171,12 @@ public class Encode extends AppCompatActivity {
             else if(requestCode == PICK_FROM_ALBUM)
             {
                 try{
+                    imageView1 = (ImageView) findViewById(R.id.encodeImage);
                     if(imageView1 == null)
                         Log.d("null error", "gallery");
                     else
                         Log.d("no null error", "gallery");
-                    imageView1 = (ImageView) findViewById(R.id.imageView);
+
                     Uri selectedimg = data.getData();
                     Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
                     encodeControl.setPicture(bm);
