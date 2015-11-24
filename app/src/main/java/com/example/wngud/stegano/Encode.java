@@ -290,6 +290,7 @@ public class Encode extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
+        //change
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
