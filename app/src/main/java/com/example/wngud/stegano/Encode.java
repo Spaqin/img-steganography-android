@@ -32,8 +32,6 @@ import java.io.IOException;
 
 public class Encode extends AppCompatActivity {
 
-    private String filename;
-    private String password;
     private EditText mPassField;
     private EditText mFileField;
     private RadioButton mNoneRadio;
@@ -44,6 +42,7 @@ public class Encode extends AppCompatActivity {
     private ImageView imageView1;
     private File tempFile;
     private Uri cameraUri;
+    private Bitmap resizedBmp;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -64,6 +63,7 @@ public class Encode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("ON CREATE", "this happened");
         setContentView(R.layout.activity_encode);
         encodeControl = new EncodeControl();
 
@@ -86,8 +86,9 @@ public class Encode extends AppCompatActivity {
         mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
         mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
         mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
-        imageView1 = (ImageView)findViewById(R.id.encodeImage);
+        imageView1 = (ImageView) findViewById(R.id.imageView);
 
+        imageView1.setImageBitmap(resizedBmp);
 
     }
     public void onclick_camera(View v){
@@ -144,7 +145,9 @@ public class Encode extends AppCompatActivity {
                 try {
                     Bitmap bm = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
                     encodeControl.setPicture(bm);
-                    imageView1.setImageBitmap(bm);
+                    resizedBmp = Helpers.resizeForPreview(bm);
+                    Log.d("IMAGE", resizedBmp.getWidth() + " " + resizedBmp.getHeight());
+                    imageView1.setImageBitmap(resizedBmp); //todo: make the image persistent between activities
                 }
 
 
@@ -160,8 +163,10 @@ public class Encode extends AppCompatActivity {
             {
                 try{
                     Uri selectedimg = data.getData();
-                    encodeControl.setPicture(MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg));
-                    imageView1.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedimg));
+                    Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
+                    encodeControl.setPicture(bm);
+                    resizedBmp = Helpers.resizeForPreview(bm);
+                    imageView1.setImageBitmap(resizedBmp); //todo: make the image persistent between activities
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -244,6 +249,18 @@ public class Encode extends AppCompatActivity {
         }
     }
 
+    public void onActivityCreated(Bundle bndl)
+    {
+        mFileField = (EditText) findViewById(R.id.filenameField);
+        mPassField = (EditText) findViewById(R.id.passwdField);
+        mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
+        mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
+        mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
+        mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
+        imageView1 = (ImageView) findViewById(R.id.imageView);
+    }
+
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -265,6 +282,8 @@ public class Encode extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
+
+
 
         public PlaceholderFragment() {
         }
