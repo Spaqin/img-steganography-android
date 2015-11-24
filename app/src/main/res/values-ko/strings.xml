@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Steganographics</string>
-    <string name="hint_message" />
+    <string name="hint_message" >메시지</string>
     <string name="buttonnn">btn</string>
+    <string name="action_settings">설정</string>
+    <string name="app_name">스테가노그래피</string>
+    <string name="camera">카메라</string>
+    <string name="choose_encryption">암호화 방식을 고르시오</string>
+    <string name="encode_button">숨기기</string>
+    <string name="error_camera">카메라 에러</string>
+    <string name="filename">파일 이름</string>
+    <string name="gallery">앨범</string>
+    <string name="hello_blank_fragment"></string>
+    <string name="password">패스워드</string>
+    <string name="picture">사진</string>
+    <string name="title_activity_decode">해독</string>
+    <string name="title_activity_encode">암호화</string>
+    <string name="title_activity_mms">MMS</string>
+    <string name="main_button_share">공유</string>
+    <string name="main_button_decode">해독</string>
+    <string name="main_button_encode">숨기기</string>
 </resources>

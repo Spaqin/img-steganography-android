@@ -146,12 +146,12 @@ public class Encode extends AppCompatActivity {
             if (requestCode == PICK_FROM_CAMERA) // 1 은 위에서 startActivityForResult(intent, 1);
             {
                 ContentResolver cr = getContentResolver();
-                try {
-                    imageView1 = (ImageView) findViewById(R.id.encodeImage);
-                    if(imageView1 == null)
-                        Log.d("null error", "camera");
-                    else
-                        Log.d("no null error", "camera");
+                    try {
+                        imageView1 = (ImageView) findViewById(R.id.encodeImage);
+                        if(imageView1 == null)
+                            Log.d("null error", "camera");
+                        else
+                            Log.d("no null error", "camera");
                     Bitmap bm = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
                     encodeControl.setPicture(bm);
                     resizedBmp = Helpers.resizeForPreview(bm);
@@ -236,10 +236,6 @@ public class Encode extends AppCompatActivity {
                     fragment = new EncodeFragment2();
                     args= new Bundle();
                     break;
-                case 2:
-                    fragment = new EncodeFragment3();
-                    args= new Bundle();
-                    break;
 
             }return fragment;
         }
@@ -247,7 +243,7 @@ public class Encode extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -257,8 +253,6 @@ public class Encode extends AppCompatActivity {
                     return "사진";
                 case 1:
                     return "숨길문장";
-                case 2:
-                    return "리뷰";
             }
             return null;
         }

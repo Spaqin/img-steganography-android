@@ -4,10 +4,18 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/choose_encryption"
+        android:id="@+id/textView3"
+        android:layout_gravity="left|top" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="right|bottom">
 
 
         <RadioGroup
@@ -16,7 +24,16 @@
             android:id="@+id/EncryptionGroup"
             android:layout_marginTop="44dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AES"
+                android:id="@+id/AESRadio"
+                android:checked="false"
+                android:onClick="onClickAES" />
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -39,14 +56,6 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AES"
-                android:id="@+id/AESRadio"
-                android:checked="false"
-                android:onClick="onClickAES" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="BlowFish"
                 android:id="@+id/BlowFishRadio"
                 android:checked="false"
@@ -54,14 +63,49 @@
 
         </RadioGroup>
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/filename"
+            android:id="@+id/filenameField"
+            android:layout_below="@+id/EncryptionGroup"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:hint="@string/password"
+            android:id="@+id/passwdField"
+            android:layout_below="@+id/filenameField"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editText6"
+            android:hint="@string/hint_message"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/button3"
+            android:layout_below="@+id/passwdField" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/encode_button"
+            android:onClick="onClickEncode"
+            android:id="@+id/button3"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="80dp"
+            android:layout_alignParentEnd="true" />
+
 
     </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/choose_encryption"
-        android:id="@+id/textView3"
-        android:layout_gravity="left|top" />
 </FrameLayout>
