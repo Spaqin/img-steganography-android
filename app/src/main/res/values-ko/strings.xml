@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Steganographics</string>
     <string name="hint_message" />
+    <string name="buttonnn">btn</string>
 </resources>

@@ -24,4 +24,7 @@
     <string name="main_button_share">share</string>
     <string name="main_button_decode">decode</string>
     <string name="error_camera">There was an error with taking a pic with the camera.</string>
+    <string name="picture">Picture</string>
+    <string name="buttonnn">btn</string>
+    <string name="Button">btn</string>
 </resources>

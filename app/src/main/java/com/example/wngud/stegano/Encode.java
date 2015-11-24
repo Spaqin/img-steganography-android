@@ -88,7 +88,7 @@ public class Encode extends AppCompatActivity {
         mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
         imageView1 = (ImageView) findViewById(R.id.imageView);
 
-        imageView1.setImageBitmap(resizedBmp);
+        //imageView1.setImageBitmap(resizedBmp);
 
     }
     public void onclick_camera(View v){
@@ -143,6 +143,11 @@ public class Encode extends AppCompatActivity {
             {
                 ContentResolver cr = getContentResolver();
                 try {
+                    imageView1 = (ImageView) findViewById(R.id.imageView);
+                    if(imageView1 == null)
+                        Log.d("null error", "camera");
+                    else
+                        Log.d("no null error", "camera");
                     Bitmap bm = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
                     encodeControl.setPicture(bm);
                     resizedBmp = Helpers.resizeForPreview(bm);
@@ -162,6 +167,11 @@ public class Encode extends AppCompatActivity {
             else if(requestCode == PICK_FROM_ALBUM)
             {
                 try{
+                    if(imageView1 == null)
+                        Log.d("null error", "gallery");
+                    else
+                        Log.d("no null error", "gallery");
+                    imageView1 = (ImageView) findViewById(R.id.imageView);
                     Uri selectedimg = data.getData();
                     Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
                     encodeControl.setPicture(bm);
