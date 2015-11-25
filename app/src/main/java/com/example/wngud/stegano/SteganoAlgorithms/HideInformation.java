@@ -1,8 +1,6 @@
 package com.example.wngud.stegano.SteganoAlgorithms;
 import java.nio.charset.StandardCharsets;
-/**
- * Created by Spag on 2015-10-04.
- */
+
 public final class HideInformation {
     private int[] picture;
     private byte[] info;
@@ -16,7 +14,7 @@ public final class HideInformation {
      * @param filename - string with filename, but only last three characters will be used, and stored in ISO-8859-1 format,
      *                  as four-character and special character extensions are relatively rare.
      */
-    HideInformation(int[] img, byte[] inf, String filename)
+    public HideInformation(int[] img, byte[] inf, String filename)
     {
         picture = new int[img.length];
         System.arraycopy(img, 0, picture, 0, img.length);
@@ -31,7 +29,7 @@ public final class HideInformation {
      * @param img - array with pixels in RGB or ARGB format
      * @param inf - byte array of information to hide
      */
-    HideInformation(int[] img, byte[] inf)
+    public HideInformation(int[] img, byte[] inf)
     {
         picture = new int[img.length];
         System.arraycopy(img, 0, picture, 0, img.length);
@@ -101,7 +99,7 @@ public final class HideInformation {
     private byte[] getAllData()
     {
         byte[] data;
-        if(textOnly == false) {
+        if(!textOnly) {
             data = new byte[info.length + filetype.length];
             System.arraycopy(filetype, 0, data, 0, filetype.length);
             System.arraycopy(info, 0, data, filetype.length, info.length);
@@ -144,7 +142,7 @@ public final class HideInformation {
         } //one important comment - it's saving the byte beginning with most significant bits at first.
 
         // Then put information if it's only text or some kind of file (1 bit is only necessary); 1 means yes, 0 means its not only text
-        if(textOnly == true)
+        if(textOnly)
             picture[pixelIt] = hideBits((byte) 0x01, picture[pixelIt], pixelBitIt, bitsPerSubpixel);
         else
             picture[pixelIt] = hideBits((byte) 0x00, picture[pixelIt], pixelBitIt, bitsPerSubpixel);
