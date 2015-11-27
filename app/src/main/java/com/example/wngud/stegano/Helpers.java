@@ -2,9 +2,7 @@ package com.example.wngud.stegano;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by Spag on 2015-11-24.
- */
+
 public class Helpers {
 
     /**
@@ -14,17 +12,17 @@ public class Helpers {
      */
     public static Bitmap resizeForPreview(Bitmap toResize)
     {
-        final int maxSize = 1080;
+        final int maxSize = 1024;
         int width = toResize.getWidth();
         int height = toResize.getHeight();
         int newWidth = width, newHeight = height;
 
-        if(width > height && width < maxSize)
+        if(width > height && width > maxSize)
         {
             newWidth = maxSize;
             newHeight = (height * maxSize) / width;
         }
-        else if(height < maxSize)
+        else if(height > maxSize)
         {
             newHeight = maxSize;
             newWidth = (width * maxSize) / height;

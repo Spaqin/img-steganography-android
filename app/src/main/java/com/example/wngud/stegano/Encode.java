@@ -36,6 +36,7 @@ public class Encode extends AppCompatActivity {
 
     private EditText mPassField;
     private EditText mFileField;
+    private EditText mMessageField;
     private RadioButton mNoneRadio;
     private RadioButton mDESRadio;
     private RadioButton mAESRadio;
@@ -67,7 +68,7 @@ public class Encode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("ON CREATE", "this happened");
         setContentView(R.layout.activity_encode);
-        encodeControl = new EncodeControl();
+        encodeControl = new EncodeControl(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -139,6 +140,23 @@ public class Encode extends AppCompatActivity {
         mPassField = (EditText) findViewById(R.id.passwdField);
         encodeControl.setEncType(Encryption_type.BLOWFISH);
         mPassField.setVisibility(EditText.VISIBLE);
+    }
+    public void onClickEncode(View v)
+    {
+        mPassField = (EditText) findViewById(R.id.passwdField);
+        encodeControl.setKey(mPassField.getText().toString());
+        mFileField = (EditText) findViewById(R.id.filenameField);
+        mMessageField = (EditText) findViewById(R.id.messageField);
+        encodeControl.setMessage(mMessageField.getText().toString());
+        try {
+            encodeControl.execute(mFileField.getText().toString());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -253,28 +271,12 @@ public class Encode extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "사진";
+                    return getString(R.string.picture);
                 case 1:
-                    return "숨길문장";
+                    return getString(R.string.hide_msg);
             }
             return null;
         }
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                         Bundle savedInstanceState)
-    {
-
-        mFileField = (EditText) findViewById(R.id.filenameField);
-        mPassField = (EditText) findViewById(R.id.passwdField);
-        mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
-        mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
-        mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
-        mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
-        imageView1 = (ImageView) findViewById(R.id.imageView);
-        if(resizedBmp != null)
-            imageView1.setImageBitmap(resizedBmp);
-        return inflater.inflate(R.layout.fragment_encode, container, false);
     }
 
 
