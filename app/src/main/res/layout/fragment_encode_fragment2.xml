@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.example.wngud.stegano.EncodeFragment2">
+    android:layout_height="match_parent" tools:context="com.example.wngud.stegano.EncodeFragment2"
+    android:visibility="visible">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -26,7 +27,13 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true">
-
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_encryption"
+                android:id="@+id/noneRadio"
+                android:onClick="onClickNoEncryption"
+                android:checked="true" />
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,13 +42,7 @@
                 android:checked="false"
                 android:onClick="onClickAES" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_encryption"
-                android:id="@+id/noneRadio"
-                android:onClick="onClickNoEncryption"
-                android:checked="true" />
+
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -81,14 +82,15 @@
             android:id="@+id/passwdField"
             android:layout_below="@+id/filenameField"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:visibility="invisible" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editText6"
+            android:id="@+id/messageField"
             android:hint="@string/hint_message"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
