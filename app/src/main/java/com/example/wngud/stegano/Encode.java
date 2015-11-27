@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.zip.Inflater;
 
 public class Encode extends AppCompatActivity {
 
@@ -260,8 +261,10 @@ public class Encode extends AppCompatActivity {
         }
     }
 
-    public void onActivityCreated(Bundle bndl)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                         Bundle savedInstanceState)
     {
+
         mFileField = (EditText) findViewById(R.id.filenameField);
         mPassField = (EditText) findViewById(R.id.passwdField);
         mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
@@ -269,6 +272,9 @@ public class Encode extends AppCompatActivity {
         mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
         mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
         imageView1 = (ImageView) findViewById(R.id.imageView);
+        if(resizedBmp != null)
+            imageView1.setImageBitmap(resizedBmp);
+        return inflater.inflate(R.layout.fragment_encode, container, false);
     }
 
 

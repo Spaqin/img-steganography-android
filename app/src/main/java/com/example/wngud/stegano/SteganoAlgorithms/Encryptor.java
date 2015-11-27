@@ -1,10 +1,12 @@
-/**
- * Created by Spag on 2015-11-02.
- */
+
 package com.example.wngud.stegano.SteganoAlgorithms;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
+
+import java.security.AlgorithmParameters;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
@@ -69,9 +71,7 @@ public class Encryptor {
         cipher.init(Cipher.ENCRYPT_MODE, sk);
 
         // enctypt!
-        byte[] encrypted = cipher.doFinal(toEncrypt);
-
-        return encrypted;
+        return cipher.doFinal(toEncrypt);
     }
 
     public static byte[] decryptBlowfish(byte[] toDecrypt, byte[] key) throws Exception {
@@ -84,9 +84,8 @@ public class Encryptor {
         // do the decryption with that key
         Cipher cipher = Cipher.getInstance("blowfish");
         cipher.init(Cipher.DECRYPT_MODE, sk);
-        byte[] decrypted = cipher.doFinal(toDecrypt);
 
-        return decrypted;
+        return cipher.doFinal(toDecrypt);
     }
 
     public static byte[] encryptDES(byte[] toEncrypt, byte[] key) throws Exception {
@@ -103,9 +102,7 @@ public class Encryptor {
         cipher.init(Cipher.ENCRYPT_MODE, sk);
 
         // enctypt!
-        byte[] encrypted = cipher.doFinal(toEncrypt);
-
-        return encrypted;
+        return cipher.doFinal(toEncrypt);
     }
 
     public static byte[] decryptDES(byte[] toDecrypt, byte[] key) throws Exception {
@@ -118,9 +115,7 @@ public class Encryptor {
         // do the decryption with that key
         Cipher cipher = Cipher.getInstance("DES");
         cipher.init(Cipher.DECRYPT_MODE, sk);
-        byte[] decrypted = cipher.doFinal(toDecrypt);
-
-        return decrypted;
+        return cipher.doFinal(toDecrypt);
     }
 }
 
