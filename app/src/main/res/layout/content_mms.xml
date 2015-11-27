@@ -31,7 +31,7 @@
         android:layout_alignEnd="@+id/button5"
         android:onClick="onclick_mms" />
 
-    <ImageView
+    <ImageView android:src="@drawable/gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mmsimage"

@@ -26,11 +26,6 @@
             android:name=".Encode"
             android:label="@string/title_activity_encode"
             android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MMS"
@@ -42,6 +37,9 @@
             android:label="@string/title_activity_decode"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity android:name=".Intro" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+
     </application>
 
 </manifest>

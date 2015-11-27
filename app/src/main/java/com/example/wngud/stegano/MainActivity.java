@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        startActivity(new Intent(this, Intro.class));
+
 
 
 
@@ -89,16 +91,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
+        if (id == R.id.nav_encode) {
+            Intent intentEncode = new Intent(this, Encode.class);
+            startActivity(intentEncode);
+        } else if (id == R.id.nav_decode) {
+            Intent intentDecode = new Intent(this, Decode.class);
+            startActivity(intentDecode);
         } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            Intent intentMMS = new Intent(this, MMS.class);
+            startActivity(intentMMS);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

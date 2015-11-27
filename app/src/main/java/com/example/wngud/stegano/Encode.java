@@ -3,6 +3,7 @@ package com.example.wngud.stegano;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
@@ -87,8 +88,9 @@ public class Encode extends AppCompatActivity {
         mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
         mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
         imageView1 = (ImageView) findViewById(R.id.encodeImage);
+        //Bitmap size =  BitmapFactory.decodeResource(getResources(), R.drawable.gallery);
+        //imageView1.setImageBitmap(size);
 
-        //imageView1.setImageBitmap(resizedBmp);
 
     }
     public void onclick_camera(View v){
