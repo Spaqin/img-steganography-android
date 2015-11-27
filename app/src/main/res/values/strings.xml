@@ -9,7 +9,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_mms">MMS</string>
     <string name="title_activity_decode">Decode</string>
     <string name="choose_encryption">Choose your encryption</string>
@@ -25,7 +24,8 @@
     <string name="main_button_decode">decode</string>
     <string name="error_camera">There was an error with taking a pic with the camera.</string>
     <string name="picture">Picture</string>
-    <string name="buttonnn">btn</string>
-    <string name="Button">btn</string>
     <string name="communicate">Communicate</string>
+    <string name="error_encode">There was an error with the encoding.</string>
+    <string name="picture_path">Picture was saved to</string>
+    <string name="hide_msg">Encoding</string>
 </resources>

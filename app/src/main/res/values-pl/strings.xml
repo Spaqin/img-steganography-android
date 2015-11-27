@@ -16,6 +16,8 @@
     <string name="main_button_encode">Zakoduj</string>
     <string name="main_button_share">Wyślij</string>
     <string name="error_camera">Wystąpił błąd podczas robienia zdjęcia.</string>
-    <string name="picture">Obrazek</string>
-    <string name="buttonnn">btn</string>
+    <string name="picture">Zdjęcie</string>
+    <string name="title_activity_mms">MMS</string>
+    <string name="picture_path">Zdjęcie zostało zapisane w</string>
+    <string name="hide_msg">Ukrywanie</string>
 </resources>
