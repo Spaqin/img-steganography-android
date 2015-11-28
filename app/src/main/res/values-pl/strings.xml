@@ -20,4 +20,5 @@
     <string name="title_activity_mms">MMS</string>
     <string name="picture_path">Zdjęcie zostało zapisane w</string>
     <string name="hide_msg">Ukrywanie</string>
+    <string name="result">Wyniki</string>
 </resources>

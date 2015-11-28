@@ -2,9 +2,7 @@
 package com.example.wngud.stegano.SteganoAlgorithms;
 import java.nio.charset.StandardCharsets;
 
-/**
- * Created by Spag on 2015-10-09.
- */
+
 public class UnhideInformation {
     private int[] picture;
     private byte[] info;
@@ -13,12 +11,12 @@ public class UnhideInformation {
     private boolean textOnly;
     private int size;
 
-    UnhideInformation(int[] pic, int bitsPerSubpixel)
+    public UnhideInformation(int[] pic, int bitsPerSubpixel)
     {
         picture = pic;
         byte[] temp = unhideInfo(bitsPerSubpixel);
 
-        if(textOnly == false) {
+        if(!textOnly) {
             filetype = new byte[3];
             info = new byte[size-3];
             System.arraycopy(temp, 0, filetype, 0, 3);
@@ -128,7 +126,7 @@ public class UnhideInformation {
             throw new IllegalArgumentException("Size is bigger than possible");
         //get info whether it's a text or a file
         temp = extractBits(picture[picCnt], bitsPerSubpixel);
-        textOnly = (temp[picPartCnt] != 0) ? true : false;
+        textOnly = temp[picPartCnt] != 0;
 
         //System.out.println(textOnly);
         //System.out.println(size);

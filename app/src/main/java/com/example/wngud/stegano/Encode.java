@@ -37,10 +37,6 @@ public class Encode extends AppCompatActivity {
     private EditText mPassField;
     private EditText mFileField;
     private EditText mMessageField;
-    private RadioButton mNoneRadio;
-    private RadioButton mDESRadio;
-    private RadioButton mAESRadio;
-    private RadioButton mBlowFishRadio;
     private EncodeControl encodeControl;
     private ImageView imageView1;
     private File tempFile;
@@ -82,17 +78,6 @@ public class Encode extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        mFileField = (EditText) findViewById(R.id.filenameField);
-
-        mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
-        mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
-        mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
-        mBlowFishRadio = (RadioButton) findViewById(R.id.BlowFishRadio);
-        imageView1 = (ImageView) findViewById(R.id.encodeImage);
-        //Bitmap size =  BitmapFactory.decodeResource(getResources(), R.drawable.gallery);
-        //imageView1.setImageBitmap(size);
-
 
     }
     public void onclick_camera(View v){
@@ -155,7 +140,7 @@ public class Encode extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-
+        //here: create new screen, pass encodeControl as parameter, and there - on create, handle the wait
 
     }
     @Override
@@ -167,12 +152,9 @@ public class Encode extends AppCompatActivity {
             if (requestCode == PICK_FROM_CAMERA) // 1 은 위에서 startActivityForResult(intent, 1);
             {
                 ContentResolver cr = getContentResolver();
-                    try {
-                        imageView1 = (ImageView) findViewById(R.id.encodeImage);
-                        if(imageView1 == null)
-                            Log.d("null error", "camera");
-                        else
-                            Log.d("no null error", "camera");
+                try {
+                    imageView1 = (ImageView) findViewById(R.id.encodeImage);
+
                     Bitmap bm = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
                     encodeControl.setPicture(bm);
                     resizedBmp = Helpers.resizeForPreview(bm);
@@ -193,11 +175,6 @@ public class Encode extends AppCompatActivity {
             {
                 try{
                     imageView1 = (ImageView) findViewById(R.id.encodeImage);
-                    if(imageView1 == null)
-                        Log.d("null error", "gallery");
-                    else
-                        Log.d("no null error", "gallery");
-
                     Uri selectedimg = data.getData();
                     Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
                     encodeControl.setPicture(bm);
@@ -263,7 +240,7 @@ public class Encode extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
 

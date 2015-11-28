@@ -31,7 +31,7 @@ import javax.crypto.NoSuchPaddingException;
 public class EncodeControl extends AsyncTask<String, String, Boolean> {
     private final int BITS_PER_COLOR = 2;
     private final static String LOG_TAG = "EncodeControl";
-    private final static String ALBUM_NAME = "Steganography";
+    private final static String FOLDER_NAME = "Steganography";
     private ProgressDialog progressDialog;
     private Encryption_type encType;
     private String filepath;
@@ -85,15 +85,11 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
 
     private boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
    private File getAlbumStorageDir(String albumName) {
         // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
+        File file = new File(Environment.getExternalStorageDirectory(), albumName);
         if (!file.mkdirs()) {
             Log.d(LOG_TAG, "Directory not created");
         }
@@ -108,10 +104,12 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             filename = dateFormat.format(new Date());
         }
-        f = new File(getAlbumStorageDir(ALBUM_NAME), filename+".png");
+        f = new File(getAlbumStorageDir(FOLDER_NAME), filename+".png");
         FileOutputStream savedStream = new FileOutputStream(f);
         picture.compress(Bitmap.CompressFormat.PNG, 100, savedStream);
         savedStream.close();
+        //make it show up in gallery:
+        new SingleMediaScanner(context, f);
 
 
     }

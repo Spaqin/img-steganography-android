@@ -28,4 +28,14 @@
     <string name="error_encode">There was an error with the encoding.</string>
     <string name="picture_path">Picture was saved to</string>
     <string name="hide_msg">Encoding</string>
+    <string name="decode_button">Decode</string>
+    <string name="clipboard_button">Copy to clipboard</string>
+    <string name="save_text_button">Save text to a file</string>
+    <string name="result">Result</string>
+    <string name="error_decode_encryption">There was an error with encryption. Are you sure you chose the right algorithm and password?</string>
+    <string name="file_found_toast">A file was hidden in the picture. Saving...</string>
+    <string name="file_saved_toast">File saved to </string>
+    <string name="error_file_saved">There was an error with saving the file.</string>
+    <string name="message">Message</string>
+    <string name="successful_decode">Decoded successfully! Swipe left to see results.</string>
 </resources>

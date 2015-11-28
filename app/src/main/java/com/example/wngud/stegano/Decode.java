@@ -1,6 +1,10 @@
 package com.example.wngud.stegano;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -16,13 +20,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Decode extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,7 +43,10 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    final private int PICK_FROM_ALBUM = 0;
+    private ImageView mDecodeGallery;
+    private DecodeControl decodeControl;
+    private EditText mDecodeMessage;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -58,6 +69,7 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+        decodeControl = new DecodeControl(this);
 
     }
     @Override
@@ -105,7 +117,44 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
         return super.onOptionsItemSelected(item);
     }
 
+    public void onClickGallery(View v)
+    {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
 
+    public void onClickDecode(View v)
+    {
+        String message = decodeControl.decode();
+        if(decodeControl.isText() && message != null)
+        {
+            Toast.makeText(this, getString(R.string.successful_decode), Toast.LENGTH_LONG).show();
+            mDecodeMessage = (EditText) findViewById(R.id.decodeMessageField);
+            mDecodeMessage.setText(message);
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode == RESULT_OK)
+        {
+            if(requestCode == PICK_FROM_ALBUM)
+            {
+                try{
+                    mDecodeGallery = (ImageView) findViewById(R.id.decodePreview);
+
+                    Uri selectedimg = data.getData();
+                    Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
+                    decodeControl.setPicture(bm);
+                    Bitmap resizedBmp = Helpers.resizeForPreview(bm);
+                    mDecodeGallery.setImageBitmap(resizedBmp);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -136,7 +185,7 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
 
@@ -144,9 +193,9 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "사진";
+                    return getString(R.string.picture);
                 case 1:
-                    return "결과";
+                    return getString(R.string.result);
             }
             return null;
         }

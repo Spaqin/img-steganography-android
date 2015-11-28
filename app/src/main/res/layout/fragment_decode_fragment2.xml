@@ -13,26 +13,31 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/editText5"
+            android:id="@+id/decodeMessageField"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_above="@+id/button9" />
+            android:layout_above="@+id/clipboardButton"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/message" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="클립보드에 복사"
-            android:id="@+id/button9"
-            android:layout_above="@+id/button11"
+            android:text="@string/clipboard_button"
+            android:id="@+id/clipboardButton"
+            android:layout_above="@+id/saveButton"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="텍스트파일로 저장"
-            android:id="@+id/button11"
+            android:text="@string/save_text_button"
+            android:id="@+id/saveButton"
             android:layout_marginBottom="63dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
