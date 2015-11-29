@@ -79,6 +79,7 @@
             android:id="@+id/decodeButton"
             android:onClick="onClickDecode"
             android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="35dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true" />
