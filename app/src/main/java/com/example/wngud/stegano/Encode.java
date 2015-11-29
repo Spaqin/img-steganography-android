@@ -1,6 +1,8 @@
 package com.example.wngud.stegano;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,9 +33,10 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.util.zip.Inflater;
+import android.support.v4.app.Fragment;
 
 public class Encode extends AppCompatActivity {
-
+    private Uri mImageCaptureUri;
     private EditText mPassField;
     private EditText mFileField;
     private EditText mMessageField;
@@ -42,6 +45,8 @@ public class Encode extends AppCompatActivity {
     private File tempFile;
     private Uri cameraUri;
     private Bitmap resizedBmp;
+    private static final String TAG = "TestImageCropActivity";
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -59,6 +64,7 @@ public class Encode extends AppCompatActivity {
     private ViewPager mViewPager;
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +132,7 @@ public class Encode extends AppCompatActivity {
         encodeControl.setEncType(Encryption_type.BLOWFISH);
         mPassField.setVisibility(EditText.VISIBLE);
     }
+
     public void onClickEncode(View v)
     {
         mPassField = (EditText) findViewById(R.id.passwdField);
@@ -135,13 +142,52 @@ public class Encode extends AppCompatActivity {
         encodeControl.setMessage(mMessageField.getText().toString());
         try {
             encodeControl.execute(mFileField.getText().toString());
+            encodeControl.get();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Share");
+        builder.setMessage("If you want Share?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.e(TAG, "mImageCaptureUri = " + mImageCaptureUri);
+                //sendMMS(mImageCaptureUri);
+                sendMMS();
+
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
         //here: create new screen, pass encodeControl as parameter, and there - on create, handle the wait
 
+    }
+    private void sendMMS(){
+        Uri mmsUri = Uri.parse("mmsto:");
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW, mmsUri);
+        sendIntent.putExtra(Intent.EXTRA_STREAM,
+                Uri.parse("file://"));
+        sendIntent.setType("image/jpg");
+
+        sendIntent.addCategory("android.intent.category.DEFAULT");
+        sendIntent.addCategory("android.intent.category.BROWSABLE");
+        sendIntent.putExtra("address", "01000000000");
+        sendIntent.putExtra("exit_on_sent", true);
+        sendIntent.putExtra("subject", "dfdfdf");
+        sendIntent.putExtra("sms_body", "dfdfsdf");
+        Uri dataUri = Uri.parse("" + mImageCaptureUri);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, dataUri);
+
+        startActivity(sendIntent);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

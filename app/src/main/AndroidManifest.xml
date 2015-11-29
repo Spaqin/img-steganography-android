@@ -37,9 +37,10 @@
             android:label="@string/title_activity_decode"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".Intro" android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        <activity
+            android:name=".Intro"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
-
     </application>
 
 </manifest>
