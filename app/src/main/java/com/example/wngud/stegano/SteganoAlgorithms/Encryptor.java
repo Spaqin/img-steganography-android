@@ -1,6 +1,8 @@
 
 package com.example.wngud.stegano.SteganoAlgorithms;
 
+import android.util.Log;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -30,7 +32,6 @@ public class Encryptor {
         catch(Exception e)
         {
             e.printStackTrace();
-            System.exit(1);
         }
     return toReturn;
     }
@@ -52,23 +53,18 @@ public class Encryptor {
         catch(Exception e)
         {
             e.printStackTrace();
-            System.exit(1);
         }
         return decrypted;
     }
 
     public static byte[] encryptBlowfish(byte[] toEncrypt, byte[] key) throws Exception {
         // create a binary key from the argument key (seed)
-        SecureRandom sr = new SecureRandom(key);
-        KeyGenerator kg = KeyGenerator.getInstance("blowfish");
-        kg.init(sr);
-        SecretKey sk = kg.generateKey();
-
+        SecretKey blowfishKey = new SecretKeySpec(key, "Blowfish");
         // create an instance of cipher
         Cipher cipher = Cipher.getInstance("blowfish");
 
         // initialize the cipher with the key
-        cipher.init(Cipher.ENCRYPT_MODE, sk);
+        cipher.init(Cipher.ENCRYPT_MODE, blowfishKey);
 
         // enctypt!
         return cipher.doFinal(toEncrypt);
@@ -76,30 +72,30 @@ public class Encryptor {
 
     public static byte[] decryptBlowfish(byte[] toDecrypt, byte[] key) throws Exception {
         // create a binary key from the argument key (seed)
-        SecureRandom sr = new SecureRandom(key);
-        KeyGenerator kg = KeyGenerator.getInstance("blowfish");
-        kg.init(sr);
-        SecretKey sk = kg.generateKey();
+
+        SecretKey blowfishKey = new SecretKeySpec(key, "Blowfish");
 
         // do the decryption with that key
         Cipher cipher = Cipher.getInstance("blowfish");
-        cipher.init(Cipher.DECRYPT_MODE, sk);
+        cipher.init(Cipher.DECRYPT_MODE, blowfishKey);
 
         return cipher.doFinal(toDecrypt);
     }
 
     public static byte[] encryptDES(byte[] toEncrypt, byte[] key) throws Exception {
         // create a binary key from the argument key (seed)
-        SecureRandom sr = new SecureRandom(key);
-        KeyGenerator kg = KeyGenerator.getInstance("DES");
-        kg.init(sr);
-        SecretKey sk = kg.generateKey();
+        byte[] paddedKey = new byte[8];
 
+        Arrays.fill(paddedKey, (byte)0);
+        int keyLen = key.length > paddedKey.length ? paddedKey.length : key.length;
+        System.arraycopy(key, 0, paddedKey, 0, keyLen);
+        Log.d("encryptor", String.valueOf(paddedKey.length));
         // create an instance of cipher
         Cipher cipher = Cipher.getInstance("DES");
 
         // initialize the cipher with the key
-        cipher.init(Cipher.ENCRYPT_MODE, sk);
+        SecretKeySpec skc = new SecretKeySpec(paddedKey, "DES");
+        cipher.init(Cipher.ENCRYPT_MODE, skc);
 
         // enctypt!
         return cipher.doFinal(toEncrypt);
@@ -107,14 +103,17 @@ public class Encryptor {
 
     public static byte[] decryptDES(byte[] toDecrypt, byte[] key) throws Exception {
         // create a binary key from the argument key (seed)
-        SecureRandom sr = new SecureRandom(key);
-        KeyGenerator kg = KeyGenerator.getInstance("DES");
-        kg.init(sr);
-        SecretKey sk = kg.generateKey();
+        byte[] paddedKey = new byte[8];
+        Arrays.fill(paddedKey, (byte)0);
+        int keyLen = key.length > paddedKey.length ? paddedKey.length : key.length;
+        System.arraycopy(key, 0, paddedKey, 0, keyLen);
+        // create an instance of cipher
 
+        // initialize the cipher with the key
+        SecretKeySpec skc = new SecretKeySpec(paddedKey, "DES");
         // do the decryption with that key
         Cipher cipher = Cipher.getInstance("DES");
-        cipher.init(Cipher.DECRYPT_MODE, sk);
+        cipher.init(Cipher.DECRYPT_MODE, skc);
         return cipher.doFinal(toDecrypt);
     }
 }

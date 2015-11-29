@@ -54,6 +54,7 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
     private ImageView mDecodeGallery;
     private DecodeControl decodeControl;
     private EditText mDecodeMessage;
+    private EditText mPasswdField;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -155,8 +156,34 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
         startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
+    public void onClickNoneDec(View v)
+    {
+        decodeControl.setEncType(Encryption_type.NONE);
+        mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        mPasswdField.setVisibility(View.INVISIBLE);
+    }
+    public void onClickAESDec(View v)
+    {
+        decodeControl.setEncType(Encryption_type.AES);
+        mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        mPasswdField.setVisibility(View.VISIBLE);
+    }
+    public void onClickDESDec(View v)
+    {
+        decodeControl.setEncType(Encryption_type.DES);
+        mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        mPasswdField.setVisibility(View.VISIBLE);
+    }
+    public void onClickBlowFishDec(View v)
+    {
+        decodeControl.setEncType(Encryption_type.BLOWFISH);
+        mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        mPasswdField.setVisibility(View.VISIBLE);
+    }
     public void onClickDecode(View v)
     {
+        mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        decodeControl.setKey(mPasswdField.getText().toString());
         String message = decodeControl.decode();
         if(decodeControl.isText() && message != null)
         {
