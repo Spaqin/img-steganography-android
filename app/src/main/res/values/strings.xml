@@ -38,4 +38,7 @@
     <string name="error_file_saved">There was an error with saving the file.</string>
     <string name="message">Message</string>
     <string name="successful_decode">Decoded successfully! Swipe left to see results.</string>
+    <string name="message_copied">Message has been copied to the clipboard.</string>
+    <string name="error_message_save">There was an error when saving the message.</string>
+    <string name="message_save_success">Message saved successfully to</string>
 </resources>

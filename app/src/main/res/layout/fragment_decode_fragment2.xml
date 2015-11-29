@@ -31,7 +31,8 @@
             android:id="@+id/clipboardButton"
             android:layout_above="@+id/saveButton"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:onClick="onClickClipboard" />
 
         <Button
             android:layout_width="wrap_content"
@@ -41,6 +42,7 @@
             android:layout_marginBottom="63dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:onClick="onClickSave" />
     </RelativeLayout>
 </FrameLayout>

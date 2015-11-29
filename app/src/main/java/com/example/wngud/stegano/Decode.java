@@ -1,5 +1,7 @@
 package com.example.wngud.stegano;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,6 +34,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+
 public class Decode extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
@@ -42,8 +47,10 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
+    private final String LOG_TAG = "Decode";
+    private final int PICK_FROM_ALBUM = 0;
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    final private int PICK_FROM_ALBUM = 0;
     private ImageView mDecodeGallery;
     private DecodeControl decodeControl;
     private EditText mDecodeMessage;
@@ -115,6 +122,30 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void onClickClipboard(View v)
+    {
+        mDecodeMessage = (EditText) findViewById(R.id.decodeMessageField);
+        ClipboardManager clipboard = (ClipboardManager) this.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Message", mDecodeMessage.getText());
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(this, R.string.message_copied, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickSave(View v)
+    {
+        mDecodeMessage = (EditText) findViewById(R.id.decodeMessageField);
+        try {
+            File f = Helpers.saveText(mDecodeMessage.getText().toString());
+            Toast.makeText(this, R.string.message_save_success + " " + f.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this, R.string.error_message_save, Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     public void onClickGallery(View v)
