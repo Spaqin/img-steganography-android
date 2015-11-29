@@ -17,4 +17,6 @@
     <string name="main_button_share">공유</string>
     <string name="main_button_decode">해독</string>
     <string name="main_button_encode">숨기기</string>
+    <string name="File">파일</string>
+    <string name="Text">텍스트</string>
 </resources>

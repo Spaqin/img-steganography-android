@@ -42,4 +42,6 @@
     <string name="error_message_save">There was an error when saving the message.</string>
     <string name="message_save_success">Message saved successfully to</string>
     <string name="title_activity_share_after_encode">ShareAfterEncode</string>
+    <string name="File">File</string>
+    <string name="Text">Text</string>
 </resources>
