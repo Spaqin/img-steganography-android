@@ -14,31 +14,74 @@
             android:id="@+id/decodePreview"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/decodeGallery" />
+            android:layout_below="@+id/decodeGallery"
+            android:layout_above="@+id/EncryptionGroup" />
 
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/EncryptionGroup"
+            android:layout_above="@+id/decodePassword"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_encryption"
+                android:id="@+id/noneRadio"
+                android:onClick="onClickNoEncryption"
+                android:checked="true" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AES"
+                android:id="@+id/AESRadio"
+                android:checked="false"
+                android:onClick="onClickAES" />
+
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DES"
+                android:id="@+id/DESRadio"
+                android:checked="false"
+                android:onClick="onClickDES"
+                android:nestedScrollingEnabled="false" />
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BlowFish"
+                android:id="@+id/BlowFishRadio"
+                android:checked="false"
+                android:onClick="onClickBlowFish" />
+
+        </RadioGroup>
 
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
             android:id="@+id/decodePassword"
-            android:layout_below="@+id/decodePreview"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:layout_above="@+id/decodeButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/decode_button"
             android:id="@+id/decodeButton"
-            android:layout_below="@+id/decodePassword"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
             android:onClick="onClickDecode"
-            android:layout_marginBottom="80dp"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
 
         <Button
             android:layout_width="wrap_content"
