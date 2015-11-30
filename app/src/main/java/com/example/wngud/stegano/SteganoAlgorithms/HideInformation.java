@@ -16,10 +16,8 @@ public final class HideInformation {
      */
     public HideInformation(int[] img, byte[] inf, String filename)
     {
-        picture = new int[img.length];
-        System.arraycopy(img, 0, picture, 0, img.length);
-        info = new byte[inf.length];
-        System.arraycopy(inf, 0, info, 0, inf.length);
+        picture = img;
+        info = inf;
         filetype = filename.substring(filename.length()-3, filename.length()).getBytes(StandardCharsets.ISO_8859_1);
         textOnly = false;
     }
@@ -32,8 +30,7 @@ public final class HideInformation {
     public HideInformation(int[] img, byte[] inf)
     {
         picture = img;
-        info = new byte[inf.length];
-        System.arraycopy(inf, 0, info, 0, inf.length);
+        info = inf;
         textOnly = true;
     }
 
@@ -125,7 +122,7 @@ public final class HideInformation {
 
         //first, hide length
         //System.out.println("datal " + data.length);
-        if(data.length > ((picture.length*3*bitsPerSubpixel)/8)-4)
+        if(data.length > ((picture.length*3*bitsPerSubpixel)/8)-5)
             throw new IllegalArgumentException("Size is bigger than possible");
 
         for (int i = 0; i < (dataLength.length*8)/bitsPerSubpixel; i++)
@@ -175,4 +172,5 @@ public final class HideInformation {
                 (byte)(value >>> 8),
                 (byte)value};
     }
+
 }

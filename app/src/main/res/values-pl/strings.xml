@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Steganographics</string>
     <string name="gallery">Galeria</string>
-    <string name="filename">Nazwa pliku</string>
+    <string name="filename">Nazwa pliku (opcjonalna)</string>
     <string name="encode_button">ZAKODUJ</string>
     <string name="choose_encryption">Wybierz szyfrowanie</string>
     <string name="camera">Aparat</string>
@@ -35,4 +35,10 @@
     <string name="share_dialog_title">Ukończono</string>
     <string name="save_text_button">Zapisz tekst do pliku</string>
     <string name="successful_decode">Dekodowanie zakończone powodzeniem! Smyrnij w lewo by zobaczyć wyniki.</string>
+    <string name="choose_file">Wybierz plik</string>
+    <string name="file_chosen">Wybrany plik:</string>
+    <string name="message">Wiadomość</string>
+    <string name="message_copied">Wiadomość została skopiowana do schowka.</string>
+    <string name="message_save_success">Wiadomość została zapisana jako</string>
+    <string name="no_file_chosen">Nie wybrano żadnego pliku.</string>
 </resources>

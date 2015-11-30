@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +26,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -31,7 +35,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.zip.Inflater;
 import android.support.v4.app.Fragment;
 
@@ -40,10 +46,15 @@ public class Encode extends AppCompatActivity {
     private EditText mPassField;
     private EditText mFileField;
     private EditText mMessageField;
+    private String filetype;
     private Bitmap image;
     private EncodeControl encodeControl;
     private File tempFile;
     private Uri cameraUri;
+    private Uri fileUri;
+    private int size;
+    private InputStream fis;
+    private boolean isContent;
     private static final String TAG = "TestImageCropActivity";
 
 
@@ -63,6 +74,7 @@ public class Encode extends AppCompatActivity {
     private ViewPager mViewPager;
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
+    private static final int PICK_FILE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +96,13 @@ public class Encode extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        image.recycle();
+        image = null;
     }
     public void onclick_camera(View v){
         Intent intent = new Intent();
@@ -134,10 +153,31 @@ public class Encode extends AppCompatActivity {
         RadioButton mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
         RadioButton mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
         RadioButton mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
+        RadioButton mFileRadio = (RadioButton) findViewById(R.id.fileRadio);
         mPassField = (EditText) findViewById(R.id.passwdField);
         mFileField = (EditText) findViewById(R.id.filenameField);
         mMessageField = (EditText) findViewById(R.id.messageField);
 
+        if(!mFileRadio.isChecked() && mMessageField.getText().toString().isEmpty())
+        {
+            Toast.makeText(this, R.string.need_message, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(image == null)
+        {
+            Toast.makeText(this, R.string.need_picture, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(mFileRadio.isChecked() && fileUri == null)
+        {
+            Toast.makeText(this, R.string.need_file, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!mNoneRadio.isChecked() && mPassField.getText().toString().isEmpty())
+        {
+            Toast.makeText(this, R.string.need_passwd, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if(mNoneRadio.isChecked())
             encodeControl.setEncType(Encryption_type.NONE);
@@ -148,9 +188,23 @@ public class Encode extends AppCompatActivity {
         else
             encodeControl.setEncType(Encryption_type.BLOWFISH);
 
+        if(mFileRadio.isChecked()) {
+            encodeControl.setFilepath(filetype);
+            if(isContent) {
+                encodeControl.setIsContent(true);
+                encodeControl.setContent(fis);
+                encodeControl.setContentSize(size);
+            }
+            encodeControl.setIsText(false);
+        }
+        else
+        {
+            encodeControl.setMessage(mMessageField.getText().toString());
+            encodeControl.setIsText(true);
+        }
+
         encodeControl.setPicture(image);
         encodeControl.setKey(mPassField.getText().toString());
-        encodeControl.setMessage(mMessageField.getText().toString());
 
         try {
             encodeControl.execute(mFileField.getText().toString());
@@ -179,7 +233,7 @@ public class Encode extends AppCompatActivity {
                     image = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
                     resizedBmp = Helpers.resizeForPreview(image);
                     Log.d("IMAGE", resizedBmp.getWidth() + " " + resizedBmp.getHeight());
-                    imageView1.setImageBitmap(resizedBmp); //todo: make the image persistent between activities
+                    imageView1.setImageBitmap(resizedBmp);
                 }
 
 
@@ -204,7 +258,61 @@ public class Encode extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            else if(requestCode == PICK_FILE)
+            {
+                try{
+                   fileUri = data.getData();
+                    if(fileUri.getScheme().equals("content")) {
+                        fis = getContentResolver().openInputStream(fileUri);
+                        Cursor returnCursor =
+                                getContentResolver().query(fileUri, null, null, null, null);
+                        returnCursor.moveToFirst();
+                        filetype = returnCursor.getString(0);
+                        size = (int) returnCursor.getLong(5);
+                        Log.d("uri shit", filetype + " " + size);
+                        isContent = true;
+                        returnCursor.close();
+                    }
+                    else {
+                        filetype = fileUri.getPath();
+                        isContent = false;
+                    }
+                    TextView tv = (TextView) findViewById(R.id.fileChosenText);
+                    String newText = getString(R.string.file_chosen) + "\n" + fileUri.getPath();
+                    tv.setText(newText);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
+    }
+
+    public void onClickFileTextRadio(View v)
+    {
+        Button mFileButton = (Button) findViewById(R.id.chooseFileButton);
+        EditText mMessageField = (EditText) findViewById(R.id.messageField);
+        TextView mFileText = (TextView) findViewById(R.id.fileChosenText);
+        if(v.getId() == R.id.fileRadio)
+        {
+            mFileButton.setVisibility(View.VISIBLE);
+            mMessageField.setVisibility(View.INVISIBLE);
+            mFileText.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mFileButton.setVisibility(View.INVISIBLE);
+            mMessageField.setVisibility(View.VISIBLE);
+            mFileText.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void onClickChooseFile(View v)
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, PICK_FILE);
     }
 
 

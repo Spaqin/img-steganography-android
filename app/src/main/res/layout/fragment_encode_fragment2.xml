@@ -123,15 +123,37 @@
                 android:text="@string/File"
                 android:id="@+id/fileRadio"
                 android:checked="false"
-                />
+                android:onClick="onClickFileTextRadio" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Text"
                 android:id="@+id/TextRadio"
-                android:checked="true" />
+                android:checked="true"
+                android:onClick="onClickFileTextRadio" />
         </RadioGroup>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_file"
+            android:id="@+id/chooseFileButton"
+            android:layout_alignTop="@+id/messageField"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible"
+            android:onClick="onClickChooseFile" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_file_chosen"
+            android:id="@+id/fileChosenText"
+            android:layout_below="@+id/chooseFileButton"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible"
+            android:lines="3"
+            android:textAlignment="center" />
 
 
     </RelativeLayout>

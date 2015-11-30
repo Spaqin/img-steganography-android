@@ -15,7 +15,7 @@
     <string name="no_encryption">None</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
-    <string name="filename">Filename</string>
+    <string name="filename">Filename (optional)</string>
     <string name="password">Password</string>
     <string name="encode_button">ENCODE</string>
     <string name="hint_message" >Message</string>
@@ -45,4 +45,14 @@
     <string name="File">File</string>
     <string name="Text">Text</string>
     <string name="share_dialog_title">Share</string>
+    <string name="choose_file" >Choose a file</string>
+    <string name="no_file_chosen">No file chosen</string>
+    <string name="file_chosen">File chosen:</string>
+    <string name="need_message">Please input your message before encoding it.</string>
+    <string name="need_picture">Please choose a picture before encoding.</string>
+    <string name="need_file">Please choose a file before encoding.</string>
+    <string name="need_passwd">Please input password before encoding.</string>
+    <string name="share_dialog_text">Do you want to open gallery and share the picture?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
 </resources>

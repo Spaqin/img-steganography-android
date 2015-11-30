@@ -20,8 +20,10 @@ import android.widget.Toast;
 import com.example.wngud.stegano.SteganoAlgorithms.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -44,14 +46,27 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
     private boolean isText = true;
     private String key;
     private Context context;
-    private Activity activity;
     private boolean ok;
     private File f;
     private Uri mImageCaptureUri;
+    private boolean isContent;
+    private InputStream content;
+    private int contentSize;
+
+    public void setContentSize(int contentSize) {
+        this.contentSize = contentSize;
+    }
+
+    public void setIsContent(boolean isContent) {
+        this.isContent = isContent;
+    }
+
+    public void setContent(InputStream content) {
+        this.content = content;
+    }
 
     public EncodeControl(Activity activity)
     {
-        this.activity = activity;
         this.context = activity;
         progressDialog = new ProgressDialog(context);
         encType = Encryption_type.NONE;
@@ -146,9 +161,9 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
         }
         mImageCaptureUri = Uri.fromFile(f);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Share");
-        builder.setMessage("Do you want to open Gallery and share?");
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setTitle(context.getString(R.string.share_dialog_title));
+        builder.setMessage(context.getString(R.string.share_dialog_text));
+        builder.setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.e(LOG_TAG, "mImageCaptureUri = " + mImageCaptureUri);
@@ -157,7 +172,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
 
             }
         });
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -194,25 +209,46 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
      */
     protected Boolean doInBackground(String... filename)
     {
-        byte[] data;
+        byte[] data = null;
         int[] pixels = new int[picture.getWidth()*picture.getHeight()];
         long tStart, tCheckpoint, tFinish;
         tStart = System.currentTimeMillis();
         picture.getPixels(pixels, 0, picture.getWidth(), 0, 0, picture.getWidth(), picture.getHeight());
         tCheckpoint = System.currentTimeMillis();
-        Log.d(LOG_TAG, "Getting pixels: " + String.valueOf(tCheckpoint - tStart)  + "ms");
+        Log.d(LOG_TAG, "Getting pixels: " + String.valueOf(tCheckpoint - tStart) + "ms");
         HideInformation hi;
 
-        publishProgress("Encrypting...");
-        //if(isText)
+        publishProgress("Reading data...");
+        if(isText)
         {
             data = message.getBytes(StandardCharsets.UTF_8);
 
         }
-        //else
+        else
         {
-            //todo implement file support
+            try {
+                if(!isContent) {
+                    File dataFile = new File(filepath);
+                    if (dataFile.length() > (pixels.length * 3 * BITS_PER_COLOR / 4) - 5)
+                        throw new IOException("file too large for the picture.");
+                    FileInputStream fis = new FileInputStream(dataFile);
+                    data = new byte[(int) dataFile.length()];
+                    fis.read(data);
+                }
+                else {
+                    data = new byte[contentSize];
+                    content.read(data);
+                }
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+
         }
+        Log.d(LOG_TAG, "Reading: " + String.valueOf(System.currentTimeMillis() - tCheckpoint)  + "ms");
+        tCheckpoint = System.currentTimeMillis();
+        publishProgress("Encrypting...");
         try {
         switch (encType) {
             case NONE:
@@ -264,6 +300,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
 
 
             Log.d(LOG_TAG, "Total: " + String.valueOf(tFinish - tStart) + "ms");
+            hi = null;
         }
         catch(Exception e)
         {

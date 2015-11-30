@@ -113,19 +113,19 @@ public class DecodeControl{
         else
         {
             //handle file creation
-            Toast.makeText(context, R.string.file_found_toast, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.file_found_toast), Toast.LENGTH_LONG).show();
             String extension = unhi.getFileExtension();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String filename = dateFormat.format(new Date());
-            f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + FOLDER_NAME, filename + "." + extension);
+            f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + FOLDER_NAME, filename + "." + extension);
             try {
                 FileOutputStream fos = new FileOutputStream(f);
                 fos.write(data);
-                Toast.makeText(context, R.string.file_saved_toast + " " + f.getPath(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(R.string.file_saved_toast) + " " + f.getPath(), Toast.LENGTH_LONG).show();
             }
             catch (IOException e)
             {
-                Toast.makeText(context, R.string.error_file_saved, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(R.string.error_file_saved), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }
