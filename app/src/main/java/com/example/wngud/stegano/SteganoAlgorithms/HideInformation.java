@@ -31,8 +31,7 @@ public final class HideInformation {
      */
     public HideInformation(int[] img, byte[] inf)
     {
-        picture = new int[img.length];
-        System.arraycopy(img, 0, picture, 0, img.length);
+        picture = img;
         info = new byte[inf.length];
         System.arraycopy(inf, 0, info, 0, inf.length);
         textOnly = true;

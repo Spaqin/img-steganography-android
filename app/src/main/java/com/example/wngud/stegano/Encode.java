@@ -36,15 +36,14 @@ import java.util.zip.Inflater;
 import android.support.v4.app.Fragment;
 
 public class Encode extends AppCompatActivity {
-    private Uri mImageCaptureUri;
+
     private EditText mPassField;
     private EditText mFileField;
     private EditText mMessageField;
+    private Bitmap image;
     private EncodeControl encodeControl;
-    private ImageView imageView1;
     private File tempFile;
     private Uri cameraUri;
-    private Bitmap resizedBmp;
     private static final String TAG = "TestImageCropActivity";
 
 
@@ -70,7 +69,7 @@ public class Encode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("ON CREATE", "this happened");
         setContentView(R.layout.activity_encode);
-        encodeControl = new EncodeControl(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -111,84 +110,59 @@ public class Encode extends AppCompatActivity {
     public void onClickNoEncryption(View v)
     {
         mPassField = (EditText) findViewById(R.id.passwdField);
-        encodeControl.setEncType(Encryption_type.NONE);
         mPassField.setVisibility(EditText.INVISIBLE);
     }
     public void onClickAES(View v)
     {
         mPassField = (EditText) findViewById(R.id.passwdField);
-        encodeControl.setEncType(Encryption_type.AES);
         mPassField.setVisibility(EditText.VISIBLE);
     }
     public void onClickDES(View v)
     {
         mPassField = (EditText) findViewById(R.id.passwdField);
-        encodeControl.setEncType(Encryption_type.DES);
         mPassField.setVisibility(EditText.VISIBLE);
     }
     public void onClickBlowFish(View v)
     {
         mPassField = (EditText) findViewById(R.id.passwdField);
-        encodeControl.setEncType(Encryption_type.BLOWFISH);
         mPassField.setVisibility(EditText.VISIBLE);
     }
 
     public void onClickEncode(View v)
     {
+        encodeControl = new EncodeControl(this);
+        RadioButton mNoneRadio = (RadioButton) findViewById(R.id.noneRadio);
+        RadioButton mAESRadio = (RadioButton) findViewById(R.id.AESRadio);
+        RadioButton mDESRadio = (RadioButton) findViewById(R.id.DESRadio);
         mPassField = (EditText) findViewById(R.id.passwdField);
-        encodeControl.setKey(mPassField.getText().toString());
         mFileField = (EditText) findViewById(R.id.filenameField);
         mMessageField = (EditText) findViewById(R.id.messageField);
+
+
+        if(mNoneRadio.isChecked())
+            encodeControl.setEncType(Encryption_type.NONE);
+        else if(mAESRadio.isChecked())
+            encodeControl.setEncType(Encryption_type.AES);
+        else if(mDESRadio.isChecked())
+            encodeControl.setEncType(Encryption_type.DES);
+        else
+            encodeControl.setEncType(Encryption_type.BLOWFISH);
+
+        encodeControl.setPicture(image);
+        encodeControl.setKey(mPassField.getText().toString());
         encodeControl.setMessage(mMessageField.getText().toString());
+
         try {
             encodeControl.execute(mFileField.getText().toString());
-            encodeControl.get();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Share");
-        builder.setMessage("If you want Share?");
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.e(TAG, "mImageCaptureUri = " + mImageCaptureUri);
-                //sendMMS(mImageCaptureUri);
-                sendMMS();
 
-            }
-        });
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        //here: create new screen, pass encodeControl as parameter, and there - on create, handle the wait
 
     }
-    private void sendMMS(){
-        Uri mmsUri = Uri.parse("mmsto:");
-        Intent sendIntent = new Intent(Intent.ACTION_VIEW, mmsUri);
-        sendIntent.putExtra(Intent.EXTRA_STREAM,
-                Uri.parse("file://"));
-        sendIntent.setType("image/jpg");
 
-        sendIntent.addCategory("android.intent.category.DEFAULT");
-        sendIntent.addCategory("android.intent.category.BROWSABLE");
-        sendIntent.putExtra("address", "01000000000");
-        sendIntent.putExtra("exit_on_sent", true);
-        sendIntent.putExtra("subject", "dfdfdf");
-        sendIntent.putExtra("sms_body", "dfdfsdf");
-        Uri dataUri = Uri.parse("" + mImageCaptureUri);
-        sendIntent.putExtra(Intent.EXTRA_STREAM, dataUri);
-
-        startActivity(sendIntent);
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -197,13 +171,13 @@ public class Encode extends AppCompatActivity {
 
             if (requestCode == PICK_FROM_CAMERA) // 1 은 위에서 startActivityForResult(intent, 1);
             {
+                Bitmap resizedBmp;
                 ContentResolver cr = getContentResolver();
                 try {
-                    imageView1 = (ImageView) findViewById(R.id.encodeImage);
+                    ImageView imageView1 = (ImageView) findViewById(R.id.encodeImage);
 
-                    Bitmap bm = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
-                    encodeControl.setPicture(bm);
-                    resizedBmp = Helpers.resizeForPreview(bm);
+                    image = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
+                    resizedBmp = Helpers.resizeForPreview(image);
                     Log.d("IMAGE", resizedBmp.getWidth() + " " + resizedBmp.getHeight());
                     imageView1.setImageBitmap(resizedBmp); //todo: make the image persistent between activities
                 }
@@ -219,13 +193,13 @@ public class Encode extends AppCompatActivity {
             }
             else if(requestCode == PICK_FROM_ALBUM)
             {
+                Bitmap resizedBmp;
                 try{
-                    imageView1 = (ImageView) findViewById(R.id.encodeImage);
+                    ImageView imageView1 = (ImageView) findViewById(R.id.encodeImage);
                     Uri selectedimg = data.getData();
-                    Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
-                    encodeControl.setPicture(bm);
-                    resizedBmp = Helpers.resizeForPreview(bm);
-                    imageView1.setImageBitmap(resizedBmp); //todo: make the image persistent between activities
+                    image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
+                    resizedBmp = Helpers.resizeForPreview(image);
+                    imageView1.setImageBitmap(resizedBmp);
                 }catch(Exception e){
                     e.printStackTrace();
                 }

@@ -21,4 +21,18 @@
     <string name="picture_path">Zdjęcie zostało zapisane w</string>
     <string name="hide_msg">Ukrywanie</string>
     <string name="result">Wyniki</string>
+    <string name="File">Plik</string>
+    <string name="Text">Tekst</string>
+    <string name="clipboard_button">Kopiuj do schowka</string>
+    <string name="communicate">Komunikacja</string>
+    <string name="decode_button">Dekoduj</string>
+    <string name="error_decode_encryption">Wystąpił błąd podczas dekrypcji. Jesteś pewien klucza lub sposobu enkrypcji?</string>
+    <string name="error_encode">Wystąpił błąd poczas kodowania.</string>
+    <string name="error_file_saved">Wystąpił błąd zapisu pliku.</string>
+    <string name="error_message_save">Wystąpił błąd zapisu wiadomości.</string>
+    <string name="file_found_toast">W obrazku był ukryty plik. Zapisuję...</string>
+    <string name="file_saved_toast">Plik został zapisany jako</string>
+    <string name="share_dialog_title">Ukończono</string>
+    <string name="save_text_button">Zapisz tekst do pliku</string>
+    <string name="successful_decode">Dekodowanie zakończone powodzeniem! Smyrnij w lewo by zobaczyć wyniki.</string>
 </resources>

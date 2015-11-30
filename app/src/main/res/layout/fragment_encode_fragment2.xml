@@ -5,26 +5,27 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/choose_encryption"
-        android:id="@+id/textView3"
-        android:layout_gravity="left|top" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right|bottom">
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/choose_encryption"
+            android:id="@+id/textView3"
+            android:layout_gravity="left|top" />
+
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/EncryptionGroup"
-            android:layout_marginTop="44dp"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/textView3"
+
+
             android:layout_alignParentStart="true">
             <RadioButton
                 android:layout_width="wrap_content"
@@ -108,11 +109,12 @@
             android:layout_alignParentEnd="true" />
 
         <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignTop="@+id/EncryptionGroup"
-            android:layout_above="@+id/filenameField"
-            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/textView3"
+            android:layout_marginEnd="50dp"
+            android:layout_alignParentEnd="true"
             android:weightSum="1">
 
             <RadioButton
@@ -120,17 +122,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/File"
                 android:id="@+id/fileRadio"
-                android:layout_gravity="center_horizontal"
                 android:checked="false"
-                android:layout_weight="0.12" />
+                />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Text"
                 android:id="@+id/TextRadio"
-                android:layout_gravity="center_horizontal"
-                android:checked="false" />
+                android:checked="true" />
         </RadioGroup>
 
 

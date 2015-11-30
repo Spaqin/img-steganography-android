@@ -44,4 +44,5 @@
     <string name="title_activity_share_after_encode">ShareAfterEncode</string>
     <string name="File">File</string>
     <string name="Text">Text</string>
+    <string name="share_dialog_title">Share</string>
 </resources>

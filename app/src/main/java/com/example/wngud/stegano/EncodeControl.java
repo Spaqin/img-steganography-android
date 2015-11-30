@@ -1,10 +1,14 @@
 package com.example.wngud.stegano;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Looper;
@@ -43,6 +47,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
     private Activity activity;
     private boolean ok;
     private File f;
+    private Uri mImageCaptureUri;
 
     public EncodeControl(Activity activity)
     {
@@ -139,6 +144,45 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
             Toast.makeText(context, context.getString(R.string.picture_path) + " " + f.getPath(), Toast.LENGTH_LONG).show();
             ok = true;
         }
+        mImageCaptureUri = Uri.fromFile(f);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Share");
+        builder.setMessage("Do you want to open Gallery and share?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.e(LOG_TAG, "mImageCaptureUri = " + mImageCaptureUri);
+                //sendMMS(mImageCaptureUri);
+                sendMMS();
+
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private void sendMMS(){
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+        sendIntent.setDataAndType(mImageCaptureUri, "image/png");
+
+        /*sendIntent.addCategory("android.intent.category.DEFAULT");
+        sendIntent.addCategory("android.intent.category.BROWSABLE");
+        sendIntent.putExtra("address", "01000000000");
+        sendIntent.putExtra("exit_on_sent", true);
+        sendIntent.putExtra("subject", "dfdfdf");
+        sendIntent.putExtra("sms_body", "dfdfsdf");
+        Uri dataUri = Uri.parse("" + mImageCaptureUri);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, dataUri);
+
+        **I'm sorry I reduced all your effort to two lines :(
+        */
+
+        context.startActivity(sendIntent);
     }
 
     public boolean wasSuccess(){
