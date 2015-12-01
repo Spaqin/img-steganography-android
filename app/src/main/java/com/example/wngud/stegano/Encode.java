@@ -98,12 +98,6 @@ public class Encode extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed(){
-        super.onBackPressed();
-        image.recycle();
-        image = null;
-    }
     public void onclick_camera(View v){
         Intent intent = new Intent();
         intent.setAction("android.media.action.IMAGE_CAPTURE");

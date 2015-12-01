@@ -124,6 +124,7 @@ public class DecodeControl{
                 FileOutputStream fos = new FileOutputStream(f);
                 fos.write(data);
                 Toast.makeText(context, context.getString(R.string.file_saved_toast) + " " + f.getPath(), Toast.LENGTH_LONG).show();
+                new SingleMediaScanner(context, f);
             }
             catch (IOException e)
             {

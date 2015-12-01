@@ -29,14 +29,6 @@
         android:layout_alignParentStart="true"
         android:onClick="GoDecode" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Exit"
-        android:id="@+id/Exitbtn"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -53,8 +45,8 @@
         android:layout_height="wrap_content"
         android:text="@string/main_button_share"
         android:id="@+id/GoMMS"
-        android:layout_above="@+id/Exitbtn"
+        android:onClick="GoMMS"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:onClick="GoMMS" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

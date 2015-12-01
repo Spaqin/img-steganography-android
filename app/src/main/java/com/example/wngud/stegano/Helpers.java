@@ -67,6 +67,7 @@ public class Helpers {
         f = new File(getAlbumStorageDir(FOLDER_NAME), "Message " + filename + ".txt");
         FileWriter fw = new FileWriter(f);
         fw.write(text);
+        fw.close();
         return f;
     }
 

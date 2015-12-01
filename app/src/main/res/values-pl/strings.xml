@@ -41,4 +41,13 @@
     <string name="message_copied">Wiadomość została skopiowana do schowka.</string>
     <string name="message_save_success">Wiadomość została zapisana jako</string>
     <string name="no_file_chosen">Nie wybrano żadnego pliku.</string>
+    <string name="error_decode">Wystąpił błąd poczas dekodowania. Jesteś pewien obrazka i algorytmu?</string>
+    <string name="need_file">Przed kodowaniem wybierz plik.</string>
+    <string name="need_message">Przed kodowaniem wpisz wiadomość.</string>
+    <string name="need_passwd">Przed kodowaniem wpisz hasło.</string>
+    <string name="need_picture">Proszę wybrać obrazek przed kodowaniem.</string>
+    <string name="no">NIE</string>
+    <string name="share_dialog_text">Czy chcesz otworzyć galerię?</string>
+    <string name="title_activity_share_after_encode"></string>
+    <string name="yes">TAK</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.wngud.stegano;
 
+import android.support.v4.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentResolver;
@@ -202,6 +203,7 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
                 mDecodeMessage = (EditText) findViewById(R.id.decodeMessageField);
                 mDecodeMessage.setText(message);
             }
+
         }
         catch (Exception e)
         {
