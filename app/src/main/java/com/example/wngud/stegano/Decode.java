@@ -31,6 +31,8 @@ import android.view.ViewGroup;
 
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -160,37 +162,53 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
     {
         decodeControl.setEncType(Encryption_type.NONE);
         mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        RadioGroup secondGroup = (RadioGroup) findViewById(R.id.decodeEncryptionGroup2);
+        secondGroup.clearCheck();
         mPasswdField.setVisibility(View.INVISIBLE);
     }
     public void onClickAESDec(View v)
     {
         decodeControl.setEncType(Encryption_type.AES);
         mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        RadioGroup secondGroup = (RadioGroup) findViewById(R.id.decodeEncryptionGroup2);
+        secondGroup.clearCheck();
         mPasswdField.setVisibility(View.VISIBLE);
     }
     public void onClickDESDec(View v)
     {
         decodeControl.setEncType(Encryption_type.DES);
         mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        RadioGroup firstGroup = (RadioGroup) findViewById(R.id.decodeEncryptionGroup);
+        firstGroup.clearCheck();
         mPasswdField.setVisibility(View.VISIBLE);
     }
     public void onClickBlowFishDec(View v)
     {
         decodeControl.setEncType(Encryption_type.BLOWFISH);
         mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        RadioGroup firstGroup = (RadioGroup) findViewById(R.id.decodeEncryptionGroup);
+        firstGroup.clearCheck();
         mPasswdField.setVisibility(View.VISIBLE);
     }
     public void onClickDecode(View v)
     {
         mPasswdField = (EditText) findViewById(R.id.decodePassword);
         decodeControl.setKey(mPasswdField.getText().toString());
-        String message = decodeControl.decode();
-        if(decodeControl.isText() && message != null)
-        {
-            Toast.makeText(this, getString(R.string.successful_decode), Toast.LENGTH_LONG).show();
-            mDecodeMessage = (EditText) findViewById(R.id.decodeMessageField);
-            mDecodeMessage.setText(message);
+        try {
+            String message = decodeControl.decode();
+            if(decodeControl.isText() && message != null)
+            {
+                Toast.makeText(this, getString(R.string.successful_decode), Toast.LENGTH_LONG).show();
+                mDecodeMessage = (EditText) findViewById(R.id.decodeMessageField);
+                mDecodeMessage.setText(message);
+            }
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this, getString(R.string.error_decode), Toast.LENGTH_LONG).show();
+        }
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

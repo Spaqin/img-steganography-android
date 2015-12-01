@@ -55,4 +55,5 @@
     <string name="share_dialog_text">Do you want to open gallery and share the picture?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="error_decode">There was an error with decoding. Are you sure you chose the right picture and password?</string>
 </resources>
