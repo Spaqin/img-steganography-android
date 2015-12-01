@@ -55,7 +55,7 @@ public class DecodeControl{
         return isText;
     }
 
-    public String decode()
+    public String decode() throws Exception
     {
         byte[] data;
         int[] pixels = new int[picture.getWidth()*picture.getHeight()];
@@ -68,7 +68,8 @@ public class DecodeControl{
         tCheckpoint = System.currentTimeMillis();
         Log.d(LOG_TAG, "Getting pixels: " + String.valueOf(tCheckpoint - tStart) + "ms");
 
-        UnhideInformation unhi = new UnhideInformation(pixels, BITS_PER_COLOR);
+            UnhideInformation unhi = new UnhideInformation(pixels, BITS_PER_COLOR);
+
 
         Log.d(LOG_TAG, "Decoding: " + String.valueOf(System.currentTimeMillis() - tCheckpoint)  + "ms");
         tCheckpoint = System.currentTimeMillis();
@@ -101,6 +102,7 @@ public class DecodeControl{
         {
             Log.e(LOG_TAG, "Error with decryption! ", e);
             Toast.makeText(context, context.getString(R.string.error_decode_encryption), Toast.LENGTH_LONG).show();
+            return null;
         }
         Log.d(LOG_TAG, "Decryption: " + String.valueOf(System.currentTimeMillis() - tCheckpoint)  + "ms");
         tFinish = System.currentTimeMillis();
@@ -115,7 +117,7 @@ public class DecodeControl{
             //handle file creation
             Toast.makeText(context, context.getString(R.string.file_found_toast), Toast.LENGTH_LONG).show();
             String extension = unhi.getFileExtension();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
             String filename = dateFormat.format(new Date());
             f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + FOLDER_NAME, filename + "." + extension);
             try {

@@ -121,7 +121,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
         if(!isExternalStorageWritable())
             throw new IOException("Storage not available");
         if(filename == null || filename.isEmpty()) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
             filename = dateFormat.format(new Date());
         }
         f = new File(getAlbumStorageDir(FOLDER_NAME), filename+".png");
