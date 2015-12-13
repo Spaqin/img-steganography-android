@@ -137,8 +137,8 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
 
     protected void onPreExecute()
     {
-        progressDialog.setMessage("Getting pixels...");
-        progressDialog.setTitle("Please wait");
+        progressDialog.setMessage(context.getString(R.string.progress_getting_pixels));
+        progressDialog.setTitle(context.getString(R.string.progress_please_wait));
         progressDialog.show();
     }
 

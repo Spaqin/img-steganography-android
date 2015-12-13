@@ -11,7 +11,7 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_mms">MMS</string>
     <string name="title_activity_decode">Decode</string>
-    <string name="choose_encryption">Choose your encryption</string>
+    <string name="choose_encryption">Encryption type</string>
     <string name="no_encryption">None</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
@@ -60,4 +60,7 @@
     <string name="progress_encrypting">Encrypting...</string>
     <string name="progress_encoding">Encoding...</string>
     <string name="progress_saving">Saving...</string>
+    <string name="progress_please_wait">Please wait</string>
+    <string name="progress_getting_pixels">Getting pixels...</string>
+    <string name="message_type">Message type</string>
 </resources>

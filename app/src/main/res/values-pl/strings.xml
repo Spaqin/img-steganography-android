@@ -4,7 +4,7 @@
     <string name="gallery">Galeria</string>
     <string name="filename">Nazwa pliku (opcjonalna)</string>
     <string name="encode_button">ZAKODUJ</string>
-    <string name="choose_encryption">Wybierz szyfrowanie</string>
+    <string name="choose_encryption">Typ szyfrowania</string>
     <string name="camera">Aparat</string>
     <string name="action_settings">Ustawienia</string>
     <string name="no_encryption">Brak</string>
@@ -51,7 +51,10 @@
     <string name="title_activity_share_after_encode"></string>
     <string name="yes">TAK</string>
     <string name="progress_encoding">Kodowanie...</string>
-    <string name="progress_encrypting">Enkrypcja...</string>
+    <string name="progress_encrypting">Szyfrowanie...</string>
     <string name="progress_reading_data">Pobieranie danych...</string>
     <string name="progress_saving">Zapisywanie...</string>
+    <string name="progress_please_wait">Proszę czekać</string>
+    <string name="progress_getting_pixels">Pobieranie pikseli...</string>
+    <string name="message_type">Typ wiadomości</string>
 </resources>
