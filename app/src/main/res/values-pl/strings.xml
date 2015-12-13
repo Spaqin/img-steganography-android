@@ -50,4 +50,8 @@
     <string name="share_dialog_text">Czy chcesz otworzyć galerię?</string>
     <string name="title_activity_share_after_encode"></string>
     <string name="yes">TAK</string>
+    <string name="progress_encoding">Kodowanie...</string>
+    <string name="progress_encrypting">Enkrypcja...</string>
+    <string name="progress_reading_data">Pobieranie danych...</string>
+    <string name="progress_saving">Zapisywanie...</string>
 </resources>

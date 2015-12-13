@@ -218,7 +218,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
         Log.d(LOG_TAG, "Getting pixels: " + String.valueOf(tCheckpoint - tStart) + "ms");
         HideInformation hi;
 
-        publishProgress("Reading data...");
+        publishProgress(context.getString(R.string.progress_reading_data));
         if(isText)
         {
             data = message.getBytes(StandardCharsets.UTF_8);
@@ -248,7 +248,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
         }
         Log.d(LOG_TAG, "Reading: " + String.valueOf(System.currentTimeMillis() - tCheckpoint)  + "ms");
         tCheckpoint = System.currentTimeMillis();
-        publishProgress("Encrypting...");
+        publishProgress(context.getString(R.string.progress_encrypting));
         try {
         switch (encType) {
             case NONE:
@@ -257,24 +257,21 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
             case AES:
                 Log.d(LOG_TAG, "AES encryption");
                 data = Encryptor.encryptAES(data, key.getBytes(StandardCharsets.UTF_8));
-                Log.d(LOG_TAG, "Encrypted: " + new String(data, StandardCharsets.UTF_8));
                 break;
             case DES:
                 Log.d(LOG_TAG, "DES encryption");
                 data = Encryptor.encryptDES(data, key.getBytes(StandardCharsets.UTF_8));
-                Log.d(LOG_TAG, "Encrypted: " + new String(data, StandardCharsets.UTF_8));
                 break;
             case BLOWFISH:
                 Log.d(LOG_TAG, "BlowFish encryption");
                 data = Encryptor.encryptBlowfish(data, key.getBytes(StandardCharsets.UTF_8));
-                Log.d(LOG_TAG, "Encrypted: " + new String(data, StandardCharsets.UTF_8));
                 break;
 
         }
 
             Log.d(LOG_TAG, "Encrypting: " + String.valueOf(System.currentTimeMillis() - tCheckpoint)  + "ms");
             tCheckpoint = System.currentTimeMillis();
-            publishProgress("Encoding...");
+            publishProgress(context.getString(R.string.progress_encoding));
             if(isText)
             {
                 Log.d(LOG_TAG, "Encoding text...");
@@ -293,7 +290,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
             Log.d(LOG_TAG, "Setting pixels: " + String.valueOf(System.currentTimeMillis() - tCheckpoint) + "ms");
             tCheckpoint = System.currentTimeMillis();
             Log.d(LOG_TAG, "Picture is set.");
-            publishProgress("Saving...");
+            publishProgress(context.getString(R.string.progress_saving));
             save(filename[0]);
             tFinish = System.currentTimeMillis();
             Log.d(LOG_TAG, "Saving: " + String.valueOf(tFinish - tCheckpoint) + "ms");

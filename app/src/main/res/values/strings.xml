@@ -56,4 +56,8 @@
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="error_decode">There was an error with decoding. Are you sure you chose the right picture and password?</string>
+    <string name="progress_reading_data">Reading data...</string>
+    <string name="progress_encrypting">Encrypting...</string>
+    <string name="progress_encoding">Encoding...</string>
+    <string name="progress_saving">Saving...</string>
 </resources>
