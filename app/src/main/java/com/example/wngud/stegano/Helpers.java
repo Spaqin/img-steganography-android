@@ -16,6 +16,8 @@ public class Helpers {
 
     private final static String LOG_TAG = "Helpers";
     private final static String FOLDER_NAME = "Steganography";
+    public static Bitmap bitmap;
+    public static Bitmap decodeBitmap;
     /**
      * Since max texture size is 4Kx4K, we have to size it down. Also, no new phones have screens wider than 1440px, but there will be no difference for 1080p width, so we resize to that
      * @param toResize - bitmap to resize
@@ -70,5 +72,7 @@ public class Helpers {
         fw.close();
         return f;
     }
+
+
 
 }

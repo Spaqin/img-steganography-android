@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.graphics.Matrix;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.design.widget.TabLayout;
@@ -46,6 +48,7 @@ public class Encode extends AppCompatActivity {
     private EditText mPassField;
     private EditText mFileField;
     private EditText mMessageField;
+    private ImageView mImageView;
     private String filetype;
     private Bitmap image;
     private EncodeControl encodeControl;
@@ -80,6 +83,11 @@ public class Encode extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("ON CREATE", "this happened");
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+
         setContentView(R.layout.activity_encode);
 
 
@@ -87,6 +95,36 @@ public class Encode extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+        Log.d("intent", "type " + type + " action " + action);
+        Bitmap resizedBmp = null;
+        Bitmap myBitmap = null;
+        if(action != null && action.equals(Intent.ACTION_SEND) && type != null)
+        {
+            Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            try {
+                int orientation = 0;
+                myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                Cursor cursor = getContentResolver().query(imageUri, new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
+                if(cursor.moveToFirst())
+                    orientation = cursor.getInt(0);
+
+                cursor.close();
+                Log.d("EXIF", "Exif: " + orientation);
+                if(orientation != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(orientation);
+                    myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true); // rotating bitmap
+                }
+            }
+            catch (Exception e) {
+                Log.d("Encode", "IOEXCEPTION!");
+                e.printStackTrace();
+            }
+            image = myBitmap;
+            resizedBmp = Helpers.resizeForPreview(image);
+        }
+        Helpers.bitmap = resizedBmp;
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -96,7 +134,11 @@ public class Encode extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        if(findViewById(R.id.encodeImage) == null)
+            Log.d("asdf", "omgwtfbbq");
+
     }
+
 
     public void onclick_camera(View v){
         Intent intent = new Intent();
@@ -223,11 +265,35 @@ public class Encode extends AppCompatActivity {
                 ContentResolver cr = getContentResolver();
                 try {
                     ImageView imageView1 = (ImageView) findViewById(R.id.encodeImage);
+                    Bitmap myBitmap = MediaStore.Images.Media.getBitmap(cr, cameraUri);
+                    try { //do rotation magic
+                        int orientation;
 
-                    image = android.provider.MediaStore.Images.Media.getBitmap(cr, cameraUri);
+                        ExifInterface exifInterface = new ExifInterface(cameraUri.getPath());
+                        orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, -1);
+
+                        Log.d("EXIF", "Exif: " + orientation);
+                        if(orientation != 0) {
+                            Matrix matrix = new Matrix();
+                            if(orientation == ExifInterface.ORIENTATION_ROTATE_90)
+                                matrix.postRotate(90);
+                            else if(orientation == ExifInterface.ORIENTATION_ROTATE_180)
+                                matrix.postRotate(180);
+                            else if(orientation == ExifInterface.ORIENTATION_ROTATE_270)
+                                matrix.postRotate(270);
+                            myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true); // rotating bitmap
+                        }
+                    }
+                    catch (Exception e) {
+                        Log.d("Encode", "IOEXCEPTION!");
+                        e.printStackTrace();
+                    }
+                    image = myBitmap;
+                    Helpers.bitmap = image;
                     resizedBmp = Helpers.resizeForPreview(image);
                     Log.d("IMAGE", resizedBmp.getWidth() + " " + resizedBmp.getHeight());
                     imageView1.setImageBitmap(resizedBmp);
+                    mViewPager.setCurrentItem(1, true);
                 }
 
 
@@ -245,9 +311,32 @@ public class Encode extends AppCompatActivity {
                 try{
                     ImageView imageView1 = (ImageView) findViewById(R.id.encodeImage);
                     Uri selectedimg = data.getData();
-                    image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
+
+                    Bitmap myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
+                    try { //rotation magic
+                        int orientation = 0;
+
+                        Cursor cursor = getContentResolver().query(selectedimg, new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
+                        if(cursor.moveToFirst())
+                        orientation = cursor.getInt(0);
+
+                        cursor.close();
+                        Log.d("EXIF", "Exif: " + orientation);
+                        if(orientation != 0) {
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(orientation);
+                            myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true); // rotating bitmap
+                        }
+                    }
+                    catch (Exception e) {
+                        Log.d("Encode", "IOEXCEPTION!");
+                        e.printStackTrace();
+                    }
+                    image = myBitmap;
+                    Helpers.bitmap = image;
                     resizedBmp = Helpers.resizeForPreview(image);
                     imageView1.setImageBitmap(resizedBmp);
+                    mViewPager.setCurrentItem(1, true);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -410,9 +499,8 @@ public class Encode extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_encode, container, false);
 
-            return rootView;
+            return inflater.inflate(R.layout.fragment_encode, container, false);
         }
     }
 }

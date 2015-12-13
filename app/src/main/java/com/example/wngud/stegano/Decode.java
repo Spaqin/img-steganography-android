@@ -1,5 +1,7 @@
 package com.example.wngud.stegano;
 
+import android.database.Cursor;
+import android.graphics.Matrix;
 import android.support.v4.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -58,6 +60,8 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
     private DecodeControl decodeControl;
     private EditText mDecodeMessage;
     private EditText mPasswdField;
+
+    private Bitmap image;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -67,6 +71,39 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decode);
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        Log.d("intent", "type " + type + " action " + action);
+        Bitmap resizedBmp = null;
+        Bitmap myBitmap = null;
+        if(action != null && action.equals(Intent.ACTION_SEND) && type != null)
+        {
+            Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            try { //rotation magic
+                int orientation = 0;
+                myBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                Cursor cursor = getContentResolver().query(imageUri, new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
+                cursor.moveToFirst();
+                    orientation = cursor.getInt(0);
+
+                cursor.close();
+                Log.d("EXIF", "Exif: " + orientation);
+                if(orientation != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(orientation);
+                    myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true); // rotating bitmap
+                }
+            }
+            catch (Exception e) {
+                Log.d("Decode", "IOEXCEPTION!");
+                e.printStackTrace();
+            }
+            image = myBitmap;
+            resizedBmp = Helpers.resizeForPreview(image);
+        }
+        Helpers.decodeBitmap = resizedBmp;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -194,6 +231,7 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
     public void onClickDecode(View v)
     {
         mPasswdField = (EditText) findViewById(R.id.decodePassword);
+        decodeControl.setPicture(image);
         decodeControl.setKey(mPasswdField.getText().toString());
         try {
             String message = decodeControl.decode();
@@ -202,6 +240,7 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
                 Toast.makeText(this, getString(R.string.successful_decode), Toast.LENGTH_LONG).show();
                 mDecodeMessage = (EditText) findViewById(R.id.decodeMessageField);
                 mDecodeMessage.setText(message);
+                mViewPager.setCurrentItem(1, true);
             }
 
         }
@@ -223,9 +262,8 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
                     mDecodeGallery = (ImageView) findViewById(R.id.decodePreview);
 
                     Uri selectedimg = data.getData();
-                    Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
-                    decodeControl.setPicture(bm);
-                    Bitmap resizedBmp = Helpers.resizeForPreview(bm);
+                    image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedimg);
+                    Bitmap resizedBmp = Helpers.resizeForPreview(image);
                     mDecodeGallery.setImageBitmap(resizedBmp);
                 }catch(Exception e){
                     e.printStackTrace();
@@ -307,8 +345,7 @@ public class Decode extends AppCompatActivity implements NavigationView.OnNaviga
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_decode, container, false);
-            return rootView;
+            return inflater.inflate(R.layout.fragment_decode, container, false);
         }
     }
 }

@@ -26,6 +26,12 @@
             android:name=".Encode"
             android:label="@string/title_activity_encode"
             android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*"/>
+
+            </intent-filter>
         </activity>
         <activity
             android:name=".MMS"
@@ -36,6 +42,12 @@
             android:name=".Decode"
             android:label="@string/title_activity_decode"
             android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/png"/>
+
+            </intent-filter>
         </activity>
         <activity
             android:name=".Intro"

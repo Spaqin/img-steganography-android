@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 /**
@@ -27,4 +28,10 @@ public class DecodeFragment1 extends Fragment {
     }
 
 
+    public void onViewCreated(View view, Bundle bundle)
+    {
+        ImageView imgView = (ImageView) getActivity().findViewById(R.id.decodePreview);
+        if(Helpers.decodeBitmap != null)
+            imgView.setImageBitmap(Helpers.decodeBitmap);
+    }
 }
