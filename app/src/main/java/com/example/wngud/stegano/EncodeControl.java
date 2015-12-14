@@ -154,6 +154,7 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
         if(!success) {
             Toast.makeText(context, context.getString(R.string.error_encode), Toast.LENGTH_SHORT).show();
             ok = false;
+            return;
         }
         else {
             Toast.makeText(context, context.getString(R.string.picture_path) + " " + f.getPath(), Toast.LENGTH_LONG).show();
@@ -236,6 +237,8 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
                     fis.read(data);
                 }
                 else {
+                    if (contentSize > (pixels.length * 3 * BITS_PER_COLOR / 4) - 5)
+                        throw new IOException("file too large for the picture.");
                     data = new byte[contentSize];
                     content.read(data);
                 }
@@ -243,6 +246,8 @@ public class EncodeControl extends AsyncTask<String, String, Boolean> {
             catch(IOException e)
             {
                 e.printStackTrace();
+                return false;
+
             }
 
         }
